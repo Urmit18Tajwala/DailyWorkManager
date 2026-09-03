@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkLog - Daily Work Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">W</div>
+            <span>WorkLog</span>
+        </div>
+
+        <nav>
+            <button class="nav-item active" data-page="dashboard">
+                <span>📊</span> Dashboard
+            </button>
+            <button class="nav-item" data-page="reports">
+                <span>📈</span> Weekly Reports
+            </button>
+            <button class="nav-item" data-page="categories">
+                <span>🏷️</span> Categories
+            </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <button class="nav-item">
+                <span>⚙️</span> Settings
+            </button>
+        </div>
+    </aside>
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+    <main class="main">
+
+        <!-- =====================
+             DASHBOARD
+        ====================== -->
+        <section id="dashboardPage" class="page">
+            <header class="topbar">
+                <div>
+                    <h1>Daily Work Tracker</h1>
+                    <p id="currentDateText"></p>
+                </div>
+                <button id="addActivityBtn" class="primary-btn">
+                    + Add Activity
+                </button>
+            </header>
+
+            <!-- Date Navigation -->
+            <div class="date-navigation">
+                <button id="previousDay">←</button>
+                <input type="date" id="selectedDate">
+                <button id="nextDay">→</button>
+                <button id="todayBtn" class="today-btn">Today</button>
+            </div>
+
+            <!-- Statistics -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">⏱</div>
+                    <div>
+                        <span>Total Work</span>
+                        <strong id="totalHours">0h 0m</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green">✓</div>
+                    <div>
+                        <span>Activities</span>
+                        <strong id="totalActivities">0</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">🏷</div>
+                    <div>
+                        <span>Categories</span>
+                        <strong id="usedCategories">0</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon orange">📊</div>
+                    <div>
+                        <span>Average Activity</span>
+                        <strong id="averageActivity">0m</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Dashboard Content -->
+            <div class="content-grid">
+                <!-- Activities -->
+                <div class="card timeline-card">
+                    <div class="card-header">
+                        <div>
+                            <h2>Today's Activities</h2>
+                            <p>Your work timeline</p>
+                        </div>
+                    </div>
+                    <div id="activityList" class="activity-list"></div>
+                </div>
+
+                <!-- Category Summary -->
+                <div class="card category-card">
+                    <div class="card-header">
+                        <div>
+                            <h2>Category Summary</h2>
+                            <p>Time spent by category</p>
+                        </div>
+                    </div>
+                    <div id="categorySummary"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================
+             REPORTS
+        ====================== -->
+        <section id="reportsPage" class="page hidden">
+            <header class="topbar">
+                <div>
+                    <h1>Weekly Report</h1>
+                    <p>Track your productivity throughout the week.</p>
+                </div>
+            </header>
+
+            <div class="report-controls">
+                <button id="previousWeek">← Previous</button>
+                <strong id="weekRange"></strong>
+                <button id="nextWeek">Next →</button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">⏱</div>
+                    <div>
+                        <span>Weekly Total</span>
+                        <strong id="weeklyTotal">0h 0m</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green">📅</div>
+                    <div>
+                        <span>Days Worked</span>
+                        <strong id="daysWorked">0</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">📊</div>
+                    <div>
+                        <span>Daily Average</span>
+                        <strong id="dailyAverage">0h 0m</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon orange">✓</div>
+                    <div>
+                        <span>Activities</span>
+                        <strong id="weeklyActivities">0</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h2>Daily Breakdown</h2>
+                            <p>Hours worked each day</p>
+                        </div>
+                    </div>
+                    <div id="dailyReport"></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h2>Category Breakdown</h2>
+                            <p>Weekly category distribution</p>
+                        </div>
+                    </div>
+                    <div id="weeklyCategoryReport"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================
+             CATEGORIES
+        ====================== -->
+        <section id="categoriesPage" class="page hidden">
+            <header class="topbar">
+                <div>
+                    <h1>Categories</h1>
+                    <p>Create categories for your work.</p>
+                </div>
+            </header>
+
+            <div class="card category-manager">
+                <div class="add-category">
+                    <input type="text" id="newCategory" placeholder="Category name">
+                    <input type="color" id="categoryColor" value="#6366f1">
+                    <button id="addCategoryBtn" class="primary-btn">Add Category</button>
+                </div>
+                <div id="categoryList"></div>
+            </div>
+        </section>
+
+    </main>
+
+</div>
+
+<!-- =========================
+     ACTIVITY MODAL
+========================== -->
+<div id="activityModal" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div>
+                <h2 id="modalTitle">Add Activity</h2>
+                <p>Record what you worked on.</p>
+            </div>
+            <button id="closeModal" class="close-btn">×</button>
+        </div>
+
+        <form id="activityForm">
+            <input type="hidden" id="activityId">
+
+            <div class="form-group">
+                <label>Activity</label>
+                <input type="text" id="activityTitle" placeholder="e.g. Build login API" required>
+            </div>
+
+            <div class="form-group">
+                <label>Category</label>
+                <select id="activityCategory" required></select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Start Time</label>
+                    <input type="time" id="startTime" required>
+                </div>
+                <div class="form-group">
+                    <label>End Time</label>
+                    <input type="time" id="endTime" required>
+                </div>
+            </div>
+
+            <div class="duration-preview">
+                Duration: <strong id="durationPreview">0m</strong>
+            </div>
+
+            <div class="form-group">
+                <label>Notes</label>
+                <textarea id="activityNotes" placeholder="Optional notes..."></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" id="cancelBtn" class="secondary-btn">Cancel</button>
+                <button type="submit" class="primary-btn">Save Activity</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
